@@ -75,6 +75,7 @@ class Application(tk.Frame):
         m = decrypt(m, self.chiave1)
         print(m)
         self.output.insert(tk.END, str(m) + "\n")
+        self.output.insert(tk.END, char_list_to_string(int_list_to_char(m)) + "\n")
 
     def get_input(self):
         global m
@@ -138,21 +139,79 @@ def multiplicative_inverse(e, b):#in uso
 def coprime(e, b):
     return gcd(e, b) == 1
 
+
+
+'''FUNZIONA'''
+'''morandi non è un bel nome per una variabile'''
+#m is a list of integers
+#k is the block size
+def block(m, k):
+    morandi = k - (len(m) % k) #cifre di riempimento da aggiungere
+    if morandi != 0:
+        for i in range(morandi):
+            m.append(0)
+    
+    sos = k
+    slen = len(m)//k #lungheza del messaggio a blocchi di k grandezza
+    s = []
+    for p in range(slen):
+        s.append(0)
+    i = h = 0
+    
+    while i < len(m):
+        if i < sos:
+            s[h] = (s[h]*1000+m[i])
+            i = i + 1
+        elif i == sos:
+            h = h + 1
+            sos = sos + k
+        else:
+            print("non dovrebbe succedere")
+    return s
+
+'''NON FUNZIONA'''
+#m is a list of integers
+#k is the block size
+def unblock(m, k):
+    m2 = []
+    m3 = []
+    i = 0
+    while i < (len(m)):
+        for atene in range(k):
+            peppe = int(m[i]%1000)
+            m[i] = (m[i] - peppe)/1000
+            m2.append(peppe)
+        
+        temp = m2[::-1]
+        m2 = []
+        
+        for roma in range(k):
+            m3.append(temp[roma])
+        temp = []
+        i = i + 1 
+    return m3
+        
+    
+    
+
+#s is a list of integers
 def crypt(s, chiave):
     i = 0
+    s = block(s, 5)
     crypted = s
     while i < len(crypted):
         crypted[i] = pow(s[i], chiave.e, chiave.n)
         i = i + 1
     return crypted
-	
+
+#crypted is a list of integers
 def decrypt(crypted, chiave):
     i = 0
     decrypted = crypted
     while i < len(decrypted):
         decrypted[i] = pow(crypted[i], chiave.d, chiave.n)
         i = i + 1
-    return decrypted
+    return unblock(decrypted, 5)
 
 def char_list_to_int(listChar):#fa quello che dice
     i = 0
