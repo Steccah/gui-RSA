@@ -40,7 +40,7 @@ class Application(tk.Frame):
         self.title.pack()
         
         #block size
-        self.block = tk.Scale(self, from_=1, to=6, orient="horizontal")
+        self.block = tk.Scale(self, from_=1, to=5, orient="horizontal") #with 6 it glitches
         self.block.pack(padx = 5, fill=tk.X)
         
         #crypt
