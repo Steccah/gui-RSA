@@ -7,6 +7,7 @@ from math import gcd
 class Application(tk.Frame):
     generated = False
     inputted = False
+    blockSize = 1
 
     
     def __init__(self, master=None):
@@ -22,7 +23,7 @@ class Application(tk.Frame):
 
         #entry
         self.entry = tk.Entry(self)
-        self.entry.pack(fill=tk.X)
+        self.entry.pack(fill=tk.X, pady = 10)
         
 
         #confirm entry
@@ -34,6 +35,14 @@ class Application(tk.Frame):
                              command = self.generate)
         self.gen.pack(ipadx = 10, ipady = 10, pady = 5)
 
+        #text
+        self.title = tk.Label(self, bg = "#F0F0F0", font = "Segoe 10", text = "Grandezza blocco:")
+        self.title.pack()
+        
+        #block size
+        self.block = tk.Scale(self, from_=1, to=6, orient="horizontal")
+        self.block.pack(padx = 5, fill=tk.X)
+        
         #crypt
         self.cry = tk.Button(self, bg = "white", relief = "groove", text="Cripta", state = "disabled",
                              command = self.crypt)
@@ -49,6 +58,7 @@ class Application(tk.Frame):
                               command=self.master.destroy)
         self.quit.pack(side = "bottom", padx = 5, fill=tk.X)
 
+
         #BOTTOM TEXT
         self.output = tk.Text(self, bg = "white", font = "Segoe 10", relief = "flat")
         self.output.pack(fill = tk.X)
@@ -63,7 +73,8 @@ class Application(tk.Frame):
             self.cry.config(state = "normal")
 
     def crypt(self):
-        global m
+        global m, blockSize
+        blockSize = self.block.get()
         m = crypt(m, self.chiave1)
         print(m)
         self.gen.config(relief="sunken", bg = "#ff6060", state = "disabled")
@@ -196,8 +207,9 @@ def unblock(m, k):
 
 #s is a list of integers
 def crypt(s, chiave):
+    global blockSize
     i = 0
-    s = block(s, 5)
+    s = block(s, blockSize)
     crypted = s
     while i < len(crypted):
         crypted[i] = pow(s[i], chiave.e, chiave.n)
@@ -206,12 +218,13 @@ def crypt(s, chiave):
 
 #crypted is a list of integers
 def decrypt(crypted, chiave):
+    global blockSize
     i = 0
     decrypted = crypted
     while i < len(decrypted):
         decrypted[i] = pow(crypted[i], chiave.d, chiave.n)
         i = i + 1
-    return unblock(decrypted, 5)
+    return unblock(decrypted, blockSize)
 
 def char_list_to_int(listChar):#fa quello che dice
     i = 0
