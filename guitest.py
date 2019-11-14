@@ -66,7 +66,7 @@ class Application(tk.Frame):
         
 
     def generate(self):
-        self.chiave1 = Chiave(101595101, 999999937)
+        self.chiave1 = Chiave(randomprime(), randomprime())
         self.generated = True
         print("generated")
         if(self.inputted):
@@ -150,6 +150,34 @@ def multiplicative_inverse(e, b):#in uso
 def coprime(e, b):
     return gcd(e, b) == 1
 
+def append(s, a):
+    return s + a
+
+def randomprime():
+    try:
+        f = open("primelist.txt", "r")
+    except:
+        print("Errore di apertura del file in sola lettura")
+
+
+    r = randrange(1, 1000000)
+    for i in range(r):#legge delle righe in ordine a caso ma si ricorda solo l'ultima
+        line = f.readline()
+
+    s = k = ""
+    tabn = randrange(0, 9)
+    tabcount = 0
+
+    for i in range(len(line)):
+        if line[i] == "\t": #and tabcount != tabn:
+            tabcount += 1
+            s = ""
+        elif tabcount == tabn:
+            break;
+        else:
+            s = append(s, line[i])
+            k = s
+    return int(k)
 
 
 '''FUNZIONA'''
