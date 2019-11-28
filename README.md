@@ -1,2 +1,9 @@
-﻿# RSA-guitest
-Replace primelist.txt with a file from [here](http://www.primos.mat.br/2T_en.html) and rename it primelist.txt
+# RSA gui test
+RSA gui test is a personal test of an rsa application built entirely with python 3.7
+
+The name is a work in progress
+
+## Getting started
+- Download main.pyw
+- Download a file from [here](http://www.primos.mat.br/2T_en.html), unzip it and rename it primelist.txt
+- Open main.pyw
