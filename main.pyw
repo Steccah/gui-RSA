@@ -150,7 +150,7 @@ def randomprime():
     try:
         f = open("primelist.txt", "r")
     except:
-        messagebox.showerror("Error", "Can't read the file")
+        messagebox.showerror("Error", "Can't read primelist.txt")
 
 
     r = randrange(1, 1000000)
