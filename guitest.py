@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import messagebox
 from random import randrange
 import math
 from math import gcd
@@ -68,7 +69,7 @@ class Application(tk.Frame):
     def generate(self):
         self.chiave1 = Chiave(randomprime(), randomprime())
         self.generated = True
-        print("generated")
+        #here it generate the keys
         if(self.inputted):
             self.cry.config(state = "normal")
 
@@ -76,7 +77,6 @@ class Application(tk.Frame):
         global m, blockSize
         blockSize = self.block.get()
         m = crypt(m, self.chiave1)
-        print(m)
         self.gen.config(relief="sunken", bg = "#ff6060", state = "disabled")
         self.decry["state"] = "normal"
         self.output.insert(tk.END, str(m) + "\n")
@@ -84,7 +84,6 @@ class Application(tk.Frame):
     def decrypt(self):
         global m
         m = decrypt(m, self.chiave1)
-        print(m)
         self.output.insert(tk.END, str(m) + "\n")
         self.output.insert(tk.END, char_list_to_string(int_list_to_char(m)) + "\n")
 
@@ -93,15 +92,14 @@ class Application(tk.Frame):
         m = self.entry.get()
         m = list(m)
         m = char_list_to_int(m)
-        print(m)
         self.inputted = True
         if(len(m)>0 and self.generated):
             self.cry.config(state = "normal")
         elif(self.generated):
-            print("messaggio non abbastanza lungo")
+            #message isn't long enough
             self.cry["state"] = self.decry["state"] = "disabled"
         else:
-            print("prima devi generare le chiavi")
+            #you have to generate the keys first
             self.cry["state"] = self.decry["state"] = "disabled"
 
 class Chiave:
@@ -112,19 +110,18 @@ class Chiave:
         self.n = p*q
         self.b = (p-1)*(q-1)
 
-        #cerca "e" a random fino a quando non ne trova uno coprimo
+        #randomly searches "e" until it's coprime with b
         self.e = int(randrange(self.b))
         while (not(coprime(self.e, self.b))):
             self.e = int(randrange(self.b))
 
-        #trova "d" grazie all'applicazione del teorema esteso di Euclide
+        #finds "d" thanks to the application of extended theorem of Euclid
         self.d = multiplicative_inverse(self.e,self.b)
 
-
 #---------------------------------------------------------------------#
-'''metodi'''
+'''methods'''
 
-def multiplicative_inverse(e, b):#in uso
+def multiplicative_inverse(e, b):
     x = 0
     y = 1
     lx = 1
@@ -143,10 +140,6 @@ def multiplicative_inverse(e, b):#in uso
     # return a , lx, ly  # Return only positive values
     return lx
 
-
-
-#qui la roba fatta
-
 def coprime(e, b):
     return gcd(e, b) == 1
 
@@ -157,11 +150,11 @@ def randomprime():
     try:
         f = open("primelist.txt", "r")
     except:
-        print("Errore di apertura del file in sola lettura")
+        messagebox.showerror("Error", "Can't read the file")
 
 
     r = randrange(1, 1000000)
-    for i in range(r):#legge delle righe in ordine a caso ma si ricorda solo l'ultima
+    for i in range(r):#randomly reads lines but it saves only the last one
         line = f.readline()
 
     s = k = ""
@@ -169,7 +162,7 @@ def randomprime():
     tabcount = 0
 
     for i in range(len(line)):
-        if line[i] == "\t": #and tabcount != tabn:
+        if line[i] == "\t":
             tabcount += 1
             s = ""
         elif tabcount == tabn:
@@ -179,19 +172,16 @@ def randomprime():
             k = s
     return int(k)
 
-
-'''FUNZIONA'''
-'''morandi non è un bel nome per una variabile'''
 #m is a list of integers
 #k is the block size
 def block(m, k):
-    morandi = k - (len(m) % k) #cifre di riempimento da aggiungere
-    if morandi != 0:
-        for i in range(morandi):
+    missing = k - (len(m) % k) #filling figures to add
+    if missing != 0:
+        for i in range(missing):
             m.append(0)
     
     sos = k
-    slen = len(m)//k #lungheza del messaggio a blocchi di k grandezza
+    slen = len(m)//k #length of the block message of k size
     s = []
     for p in range(slen):
         s.append(0)
@@ -205,10 +195,9 @@ def block(m, k):
             h = h + 1
             sos = sos + k
         else:
-            print("non dovrebbe succedere")
+            messagebox.showinfo("Error", "This shouldn't happen")
     return s
 
-'''NON FUNZIONA'''
 #m is a list of integers
 #k is the block size
 def unblock(m, k):
@@ -254,7 +243,7 @@ def decrypt(crypted, chiave):
         i = i + 1
     return unblock(decrypted, blockSize)
 
-def char_list_to_int(listChar):#fa quello che dice
+def char_list_to_int(listChar):#it does what it promises
     i = 0
     listInt = listChar
     while i < len(listChar):
@@ -262,7 +251,7 @@ def char_list_to_int(listChar):#fa quello che dice
         i = i + 1
     return listInt
 
-def int_list_to_char(listInt):#fa quello che dice
+def int_list_to_char(listInt):#it does what it promises
     i = 0
     listChar = listInt
     while i < len(listInt):
@@ -270,7 +259,7 @@ def int_list_to_char(listInt):#fa quello che dice
         i = i + 1
     return listChar
 
-def char_list_to_string(s):#fa quello che dice
+def char_list_to_string(s):#it does what it promises
     new = "" 
     for x in s: 
         new += x
