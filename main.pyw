@@ -225,6 +225,8 @@ def unblock(m, k):
 #s is a list of integers
 def crypt(s, chiave):
     global blockSize
+    if isinstance(s[0], str):
+        s = char_list_to_int(s)
     i = 0
     s = block(s, blockSize)
     crypted = s
