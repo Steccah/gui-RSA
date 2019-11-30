@@ -2,3 +2,4 @@
 .gitignore export-ignore
 README.md export-ignore
 primelist.txt export-ignore
+LICENSE export-ignore
