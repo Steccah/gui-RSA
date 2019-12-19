@@ -14,14 +14,12 @@ class Application(tk.Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.master = master
+        master.title("RSA")
+        master.iconbitmap('py.ico')
         self.pack()
         self.create_widgets()
 
     def create_widgets(self):
-        #top text
-        self.title = tk.Label(self, bg = "#F0F0F0", font = "Segoe 10", text = "RSA")
-        self.title.pack()
-
         #entry
         self.entry = tk.Entry(self)
         self.entry.pack(fill=tk.X, pady = 10)
