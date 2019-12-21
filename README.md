@@ -7,3 +7,5 @@ The name is a work in progress
 - Download main.pyw
 - Download a file from [here](http://www.primos.mat.br/2T_en.html), unzip it and rename it primelist.txt
 - Open main.pyw
+
+You can choose between aio.py and main.py, aio.py only has a button
