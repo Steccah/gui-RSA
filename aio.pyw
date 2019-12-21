@@ -40,27 +40,6 @@ class Application(tk.Frame):
         #All In One
         self.aio = tk.Button(self, bg = "white", relief = "groove", text="AIO", fg="green", command = self.aio)
         self.aio.pack(ipadx = 10, pady = 5)
-        
-        '''
-        #confirm entry
-        self.get = tk.Button(self, bg = "white", relief = "groove", text="conferma", command = self.get_input)
-        self.get.pack()
-
-        #generate
-        self.gen = tk.Button(self, bg = "white", relief = "groove", text="Genera",
-                             command = self.generate)
-        self.gen.pack(ipadx = 10, ipady = 10, pady = 5)
-        
-        #crypt
-        self.cry = tk.Button(self, bg = "white", relief = "groove", text="Cripta", state = "disabled",
-                             command = self.crypt)
-        self.cry.pack(ipadx = 10, pady = 5)
-
-        #decrypt
-        self.decry = tk.Button(self, bg = "white", relief = "groove", text="Decripta", state = "disabled",
-                               command = self.decrypt)
-        self.decry.pack(ipadx = 10, pady = 5)
-        '''
 
         #quit
         self.quit = tk.Button(self, bg = "white", relief = "groove", text="quit", fg="red",
